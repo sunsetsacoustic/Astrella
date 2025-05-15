@@ -42,4 +42,6 @@ Thumbs.db
 
 # Project specific
 instance/
-.webassets-cache 
+.webassets-cache
+
+GEMINI_API_KEY=AIzaSyAqL5sVPYNNLp9Y431bEKhgj0POI2Wizfs
