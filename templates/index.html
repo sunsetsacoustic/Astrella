@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astrella - Your Core Identity Reading</title>
+    <!-- Main Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Flatpickr for date/time pickers -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+    <!-- Select2 for enhanced select dropdowns -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css">
 </head>
 <body>
     <div class="container">
@@ -14,35 +19,85 @@
         </header>
 
         <main>
+            <!-- Multi-step input form -->
             <section id="input-section" class="paper-card">
-                <h2>Enter Your Birth Data</h2>
+                <!-- Progress bar -->
+                <div class="form-progress">
+                    <div class="progress-step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <span>Date & Time</span>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <div class="step-number">2</div>
+                        <span>Location</span>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <div class="step-number">3</div>
+                        <span>Review</span>
+                    </div>
+                </div>
+
                 <form id="birth-data-form">
-                    <div class="form-group">
-                        <label for="birthDate">Birth Date</label>
-                        <input type="date" id="birthDate" name="birthDate" required>
+                    <!-- Step 1: Date & Time -->
+                    <div class="form-step active" data-step="1">
+                        <h2>When were you born?</h2>
+                        <div class="form-group">
+                            <label for="birthDate">Birth Date</label>
+                            <input type="text" id="birthDate" name="birthDate" class="date-picker" placeholder="Select your birth date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthTime">Birth Time</label>
+                            <input type="text" id="birthTime" name="birthTime" class="time-picker" placeholder="Select your birth time" required>
+                        </div>
+                        <div class="form-navigation">
+                            <button type="button" class="next-btn">Next Step</button>
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="birthTime">Birth Time</label>
-                        <input type="time" id="birthTime" name="birthTime" required>
+                    <!-- Step 2: Location -->
+                    <div class="form-step" data-step="2">
+                        <h2>Where were you born?</h2>
+                        <div class="form-group">
+                            <label for="birthLocation">Birth Location</label>
+                            <select id="birthLocation" name="birthLocation" class="location-select" required>
+                                <option value="">Search for your birth city...</option>
+                            </select>
+                        </div>
+                        <div class="form-navigation">
+                            <button type="button" class="prev-btn">Previous</button>
+                            <button type="button" class="next-btn">Next Step</button>
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="birthLocation">Birth Location</label>
-                        <input type="text" id="birthLocation" name="birthLocation" 
-                               placeholder="City, State/Country" required>
+                    <!-- Step 3: Review -->
+                    <div class="form-step" data-step="3">
+                        <h2>Review Your Information</h2>
+                        <div class="review-summary">
+                            <div class="summary-item">
+                                <span class="label">Birth Date:</span>
+                                <span id="review-date"></span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Birth Time:</span>
+                                <span id="review-time"></span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Birth Location:</span>
+                                <span id="review-location"></span>
+                            </div>
+                        </div>
+                        <div class="form-navigation">
+                            <button type="button" class="prev-btn">Previous</button>
+                            <button type="submit" class="submit-btn">Generate Reading</button>
+                        </div>
                     </div>
-                    
-                    <button type="submit" class="submit-btn">Generate Reading</button>
                 </form>
             </section>
 
+            <!-- Results Section -->
             <section id="results-section" class="paper-card hidden">
                 <div class="loading-spinner hidden">
                     <div class="spinner"></div>
                     <p>Calculating your chart...</p>
                 </div>
-
                 <div id="chart-display" class="hidden">
                     <h2>Your Core Chart</h2>
                     <div class="chart-signs">
@@ -60,11 +115,11 @@
                         </div>
                     </div>
                 </div>
-
                 <div id="reading-display" class="hidden">
                     <h2>Your Core Identity Reading</h2>
                     <div class="reading-content" id="reading-content"></div>
                 </div>
+                <button id="share-btn" class="share-btn">Share Your Reading</button>
             </section>
         </main>
 
@@ -73,6 +128,11 @@
         </footer>
     </div>
 
+    <!-- JS dependencies: jQuery, Flatpickr, Select2, html2canvas, then main script -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html> 
