@@ -362,6 +362,22 @@ body.dark-mode .step-number {
 body.dark-mode .progress-step.active .step-number {
     background: #8a6cff;
 }
+body.dark-mode .sign .label {
+    color: #e0d7ff;
+}
+body.dark-mode .sign .value {
+    color: #ffd700;
+}
+body.dark-mode .reading-content {
+    background: #23233a;
+    color: #f3f3f3;
+}
+body.dark-mode .subtitle {
+    color: #ffd700;
+}
+body.dark-mode .summary-item .label {
+    color: #ffd700;
+}
 
 #dark-mode-toggle {
     background: none;
