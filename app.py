@@ -61,8 +61,8 @@ def search_location():
     response = requests.get(url, params=params, headers={"User-Agent": "astrella-app"})
     results = []
     for place in response.json():
-        # Only include cities/towns/villages
-        if place.get("type") in ["city", "town", "village"]:
+        # Include more place types for broader coverage
+        if place.get("type") in ["city", "town", "village", "hamlet", "municipality", "locality"]:
             display_name = place["display_name"]
             results.append({"id": display_name, "name": display_name})
     return jsonify(results)
