@@ -332,4 +332,114 @@ input:focus, .date-picker:focus, .time-picker:focus, .location-input:focus {
     .chart-signs {
         grid-template-columns: 1fr;
     }
+}
+
+/* ========== Dark Mode ========== */
+body.dark-mode {
+    background-color: #181824;
+    color: #f3f3f3;
+}
+body.dark-mode .paper-card {
+    background: #23233a;
+    color: #f3f3f3;
+    border-color: #33334d;
+}
+body.dark-mode h1, body.dark-mode .subtitle, body.dark-mode footer {
+    color: #e0d7ff;
+}
+body.dark-mode .next-btn, body.dark-mode .share-btn {
+    background-color: #8a6cff;
+}
+body.dark-mode .next-btn:hover, body.dark-mode .share-btn:hover {
+    background-color: #6b4fbb;
+}
+body.dark-mode .form-progress::before {
+    background: #33334d;
+}
+body.dark-mode .step-number {
+    background: #33334d;
+}
+body.dark-mode .progress-step.active .step-number {
+    background: #8a6cff;
+}
+
+#dark-mode-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: 1rem;
+    color: var(--accent-color);
+    transition: color 0.3s;
+}
+#dark-mode-toggle:hover {
+    color: #181824;
+}
+body.dark-mode #dark-mode-toggle {
+    color: #e0d7ff;
+}
+
+/* ========== Social Share Buttons ========== */
+.social-share {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.social-share button {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.social-share button:hover {
+    transform: scale(1.2);
+}
+
+/* ========== Chart Image Placeholder ========== */
+.chart-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    min-height: 60px;
+}
+
+/* ========== Astrology Loading Animation ========== */
+.astro-spinner {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem auto;
+}
+.astro-spinner .star {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    background: gold;
+    border-radius: 50%;
+    box-shadow: 0 0 12px 4px gold;
+    transform: translate(-50%, -50%) scale(1);
+    animation: star-pulse 1.2s infinite alternate;
+}
+.astro-spinner .orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 48px;
+    height: 48px;
+    border: 2px dashed #6b4fbb;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: orbit-spin 1.5s linear infinite;
+}
+@keyframes orbit-spin {
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@keyframes star-pulse {
+    0% { box-shadow: 0 0 12px 4px gold; }
+    100% { box-shadow: 0 0 24px 8px #ffe066; }
 } 

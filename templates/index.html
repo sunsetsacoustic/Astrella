@@ -16,6 +16,7 @@
         <header>
             <h1>Astrella</h1>
             <p class="subtitle">Discover Your Core Identity</p>
+            <button id="dark-mode-toggle" title="Toggle dark mode">🌙</button>
         </header>
 
         <main>
@@ -94,12 +95,16 @@
 
             <!-- Results Section -->
             <section id="results-section" class="paper-card hidden">
-                <div class="loading-spinner hidden">
-                    <div class="spinner"></div>
+                <div class="loading-spinner hidden" id="astro-loading">
+                    <div class="astro-spinner">
+                        <div class="star"></div>
+                        <div class="orbit"></div>
+                    </div>
                     <p>Calculating your chart...</p>
                 </div>
                 <div id="chart-display" class="hidden">
                     <h2>Your Core Chart</h2>
+                    <div class="chart-image" id="chart-image-placeholder"></div>
                     <div class="chart-signs">
                         <div class="sign sun-sign">
                             <span class="label">Sun</span>
@@ -118,6 +123,13 @@
                 <div id="reading-display" class="hidden">
                     <h2>Your Core Identity Reading</h2>
                     <div class="reading-content" id="reading-content"></div>
+                    <div class="social-share">
+                        <span>Share your reading:</span>
+                        <button class="share-btn-fb" title="Share on Facebook">📘</button>
+                        <button class="share-btn-x" title="Share on Twitter/X">𝕏</button>
+                        <button class="share-btn-wa" title="Share on WhatsApp">🟢</button>
+                        <button class="share-btn-link" title="Copy link">🔗</button>
+                    </div>
                 </div>
                 <button id="share-btn" class="share-btn">Share Your Reading</button>
             </section>
