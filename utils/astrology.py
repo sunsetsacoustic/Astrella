@@ -5,12 +5,18 @@ from geopy.exc import GeocoderTimedOut
 import pytz
 
 class AstrologyCalculator:
+    """
+    Handles astrological calculations using Swiss Ephemeris and geopy for geocoding.
+    """
     def __init__(self):
         # Initialize Swiss Ephemeris
         swe.set_ephe_path()
         
     def get_coordinates(self, location):
-        """Get latitude and longitude from location string."""
+        """
+        Get latitude and longitude from a location string using geopy.
+        Returns (lat, lon) tuple or None if not found.
+        """
         try:
             geolocator = Nominatim(user_agent="astrella")
             location_data = geolocator.geocode(location)
@@ -21,7 +27,10 @@ class AstrologyCalculator:
             return None
 
     def calculate_chart(self, birth_date, birth_time, location):
-        """Calculate astrological chart points."""
+        """
+        Calculate Sun, Moon, and Ascendant signs based on birth data.
+        Returns a dict with sign names.
+        """
         try:
             # Parse date and time
             date_time = datetime.strptime(f"{birth_date} {birth_time}", "%Y-%m-%d %H:%M")
@@ -37,26 +46,26 @@ class AstrologyCalculator:
             jd = swe.julday(date_time.year, date_time.month, date_time.day,
                           date_time.hour + date_time.minute/60.0)
             
-            # Calculate positions
-            sun_pos = swe.calc_ut(jd, swe.SUN)[0]
-            moon_pos = swe.calc_ut(jd, swe.MOON)[0]
+            # Calculate Sun and Moon positions (longitude)
+            sun_result = swe.calc_ut(jd, swe.SUN)
+            moon_result = swe.calc_ut(jd, swe.MOON)
+            sun_pos = float(sun_result[0][0])  # longitude
+            moon_pos = float(moon_result[0][0])
             
-            # Calculate Ascendant
-            armc = swe.sidtime(jd) * 15 + lon
-            if armc < 0:
-                armc += 360
-            elif armc > 360:
-                armc -= 360
-                
-            ascendant = swe.house_pos(jd, lat, lon, armc)[0]
+            # Calculate Ascendant using houses
+            houses_result = swe.houses(jd, float(lat), float(lon))
+            house_cusps = houses_result[0]
+            ascendant = float(house_cusps[0])
             
-            # Convert positions to zodiac signs (0-11)
+            # Helper functions for sign calculation
             def get_sign(position):
-                return int(position / 30)
+                return int(float(position) / 30)
             
             def get_sign_name(sign_num):
-                signs = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
-                        "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]
+                signs = [
+                    "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+                    "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+                ]
                 return signs[sign_num]
             
             return {
@@ -68,5 +77,5 @@ class AstrologyCalculator:
         except Exception as e:
             raise ValueError(f"Error calculating chart: {str(e)}")
 
-# Create a singleton instance
+# Singleton instance for use in app
 calculator = AstrologyCalculator() 
