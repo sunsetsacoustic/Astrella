@@ -49,21 +49,20 @@ def search_location():
     if not query:
         return jsonify([])
 
-    # Call Nominatim API for city search
-    url = "https://nominatim.openstreetmap.org/search"
+    # Use Geoapify Places API for city autocomplete
+    url = "https://api.geoapify.com/v1/geocode/autocomplete"
     params = {
-        "q": query,
-        "format": "json",
-        "addressdetails": 1,
+        "text": query,
+        "type": "city",
         "limit": 10,
-        "accept-language": "en"
+        "apiKey": os.environ.get("GEOAPIFY_API_KEY")
     }
-    response = requests.get(url, params=params, headers={"User-Agent": "astrella-app"})
+    response = requests.get(url, params=params)
     results = []
-    for place in response.json():
-        # Include all results with a display name and coordinates
-        if "display_name" in place and "lat" in place and "lon" in place:
-            display_name = place["display_name"]
+    for feature in response.json().get("features", []):
+        props = feature["properties"]
+        display_name = props.get("formatted") or props.get("city") or props.get("name")
+        if display_name:
             results.append({"id": display_name, "name": display_name})
     return jsonify(results)
 
