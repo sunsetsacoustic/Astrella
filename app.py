@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 from utils.astrology import calculator
 from utils.ai import generate_reading
+import requests
 
 # Load environment variables
 load_dotenv()
@@ -44,20 +45,26 @@ def get_reading():
 
 @app.route('/api/search-location')
 def search_location():
-    """Return a list of cities matching the query for the Select2 AJAX location search."""
-    query = request.args.get('query', '').lower()
-    # Example static city list (expand as needed)
-    cities = [
-        {'id': 'Houston, Texas', 'name': 'Houston, Texas'},
-        {'id': 'New York, New York', 'name': 'New York, New York'},
-        {'id': 'Los Angeles, California', 'name': 'Los Angeles, California'},
-        {'id': 'Chicago, Illinois', 'name': 'Chicago, Illinois'},
-        {'id': 'London, UK', 'name': 'London, UK'},
-        {'id': 'Paris, France', 'name': 'Paris, France'},
-        {'id': 'Tokyo, Japan', 'name': 'Tokyo, Japan'},
-        # ... add more as needed ...
-    ]
-    results = [city for city in cities if query in city['name'].lower()]
+    query = request.args.get('query', '')
+    if not query:
+        return jsonify([])
+
+    # Call Nominatim API for city search
+    url = "https://nominatim.openstreetmap.org/search"
+    params = {
+        "q": query,
+        "format": "json",
+        "addressdetails": 1,
+        "limit": 10,
+        "accept-language": "en"
+    }
+    response = requests.get(url, params=params, headers={"User-Agent": "astrella-app"})
+    results = []
+    for place in response.json():
+        # Only include cities/towns/villages
+        if place.get("type") in ["city", "town", "village"]:
+            display_name = place["display_name"]
+            results.append({"id": display_name, "name": display_name})
     return jsonify(results)
 
 # ----------------------
