@@ -54,7 +54,7 @@ def search_location():
     params = {
         "text": query,
         "type": "city",
-        "limit": 10,
+        "limit": 25,
         "apiKey": os.environ.get("GEOAPIFY_API_KEY")
     }
     response = requests.get(url, params=params)
